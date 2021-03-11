@@ -696,6 +696,7 @@ int main(int argc, char **argv)
         cglenzdone();
 
 	swap_buffers();
+	poll_event();
     }
     dis_setcopper(0,NULL);
 #if 0

@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <GLES2/gl2.h>
 #include <SOIL/SOIL.h>
 #include "u2gl.h"
 #include "opengl.h"
@@ -44,7 +43,7 @@ static const char vertex_shader[] =
 "}\n";
 
 static const char fragment_shader[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "\n"
@@ -68,8 +67,9 @@ static const char vertex_shader_texture[] =
 "    vPosition = vec3(position);\n"
 "}\n";
 
+/*
 static const char fragment_shader_texture[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform sampler2D uTexture;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
@@ -78,9 +78,10 @@ static const char fragment_shader_texture[] =
 "void main() {\n"
 "    gl_FragColor = texture2D(uTexture, vTexPosition).rgba;\n"
 "}\n";
+*/
 
 static const char fragment_shader_doitfb[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform sampler2D uTexture;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
@@ -102,7 +103,7 @@ static const char fragment_shader_doitfb[] =
 "}\n";
 
 static const char fragment_shader_doit[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "\n"
@@ -111,7 +112,7 @@ static const char fragment_shader_doit[] =
 "}\n";
 
 static const char fragment_shader_interfb[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform sampler2D uTexture;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
@@ -127,7 +128,7 @@ static const char fragment_shader_interfb[] =
 "}\n";
 
 static const char fragment_shader_inter[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "uniform vec2 uPos;\n"
 "uniform vec2 uOverpos;\n"
@@ -279,6 +280,7 @@ void draw_palette()
 	}
 }
 
+/*
 static void init_texture()
 {
 	GLuint tex;
@@ -303,6 +305,7 @@ static void init_texture()
 	glGenerateMipmap(GL_TEXTURE_2D);
 	u2gl_check_error("init_texture");
 }
+*/
 
 extern int window_width;
 extern int window_height;

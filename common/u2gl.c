@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#include <GLES2/gl2.h>
 #include "u2gl.h"
 
 static float tex_coords[8];
@@ -14,7 +13,7 @@ void u2gl_check_error(char *t)
 {
 	int e = glGetError();
 	if (e != GL_NO_ERROR) {
-		fprintf(stderr, "[%s] %s\n", t, gluErrorString(e));
+		fprintf(stderr, "[%s] glGetError: 0x%X\n", t, e);
 	}
 }
 

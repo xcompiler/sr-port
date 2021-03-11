@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <GLES2/gl2.h>
 #include <SOIL/SOIL.h>
 #include "u2gl.h"
 
@@ -57,7 +56,7 @@ static const char vertex_shader[] =
 "}\n";
 
 static const char fragment_shader[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "\n"
@@ -83,7 +82,7 @@ static const char vertex_shader_diffuse[] =
 "}\n";
 
 static const char fragment_shader_diffuse[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "uniform vec3 uLight;\n"
 "varying vec3 vPosition;\n"
@@ -95,6 +94,7 @@ static const char fragment_shader_diffuse[] =
 "    gl_FragColor = vec4(c.xyz, 1.0);\n"
 "}\n";
 
+/*
 static const char vertex_shader_texture[] =
 "uniform mat4 pMatrix;\n"
 "uniform mat4 uMatrix;\n"
@@ -112,7 +112,7 @@ static const char vertex_shader_texture[] =
 "}\n";
 
 static const char fragment_shader_texture[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform sampler2D uTexture;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
@@ -121,7 +121,7 @@ static const char fragment_shader_texture[] =
 "void main() {\n"
 "    gl_FragColor = texture2D(uTexture, vTexPosition).rgba * uColor.x;\n"
 "}\n";
-
+*/
 
 
 #if 0

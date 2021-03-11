@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <GLES2/gl2.h>
 #include "u2gl.h"
 #include "dots.h"
 
@@ -64,7 +63,7 @@ static const char vertex_shader[] =
 "}\n";
 
 static const char dot_shader[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "varying vec4 vCenter;\n"
@@ -77,7 +76,7 @@ static const char dot_shader[] =
 "}\n";
 
 static const char floor_shader[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "\n"

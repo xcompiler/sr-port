@@ -1016,6 +1016,7 @@ void dointerference()
 		draw_inter();
 		draw_interfb();
 		swap_buffers();
+		poll_event();
 	
 		//scrnposl = scrnx & 7;
 		//scrnpos = scrnx / 8 + scrny * 80;
@@ -1035,7 +1036,8 @@ void dointerference()
 
 }
 
-void setpalarea(char *pal, int start, int num)
+//void setpalarea(char *pal, int start, int num)
+void setpalarea(char *setpalarea_pal, int start, int num)
 {
 }
 

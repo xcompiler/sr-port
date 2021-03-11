@@ -292,6 +292,7 @@ int main(int argc, char **argv)
 		clear_screen();
 		draw_dots();
 		swap_buffers();
+		poll_event();
 	}
 
 	return 0;

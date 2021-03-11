@@ -9,7 +9,7 @@ struct st_readp
 
 void	readp(char *dest,int row,char *src)
 {
-	int	bytes/*,a,b*/;
+	/* int	bytes //,a,b; */
 	struct st_readp *hdr;
 	hdr=(struct st_readp *)src;
 	if(row==-1)
@@ -35,7 +35,7 @@ void	readp(char *dest,int row,char *src)
 		}
 #endif
 	}
-	bytes=*(int *)src;
+	//bytes=*(int *)src;
 	src+=2;
 #if 0
 	_asm

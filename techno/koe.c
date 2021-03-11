@@ -13,7 +13,9 @@
 #include "opengl.h"
 #include "koe.h"
 
+#ifndef O_BINARY
 #define O_BINARY 0
+#endif
 
 int doit1(int);
 int doit2(int);
@@ -34,6 +36,7 @@ int	pl=1,plv=0;
 
 char *vbuf;
 
+/* The definition of pal in koeb.c has been ignored in favour of the one below */
 char	pal[16*16*3];
 
 //char *vram=(char *)0xa0000000L;
@@ -47,7 +50,7 @@ int 	waitborder(void)
 {	
 	static int lasta=0;
 	int	a,r;
-	char	*p;
+	//char	*p;
 	a=dis_musrow();
 	if(a!=lasta)
 	{
@@ -57,7 +60,7 @@ int 	waitborder(void)
 	r=dis_waitb();
 	if(r>10) r=10;
 	if(r<0) r=1;
-	p=pal+16*3*curpal;
+//	p=pal+16*3*curpal;
 #if 0
 	outp(0x3c8,0);
 	for(a=0;a<16*3;a++) outp(0x3c9,*p++);
@@ -101,8 +104,8 @@ void	setborder(int c)
 int *	flash(int i)
 {
 	static int pal1[16*3];
-	int	pal2[16*3];
-	int	a,j/*,k*/;
+	/* int	pal2[16*3]; */
+	/* int	a,j,k*/;
 	if(i==-2) ;
 	else if(i==-1)
 	{
@@ -113,8 +116,8 @@ int *	flash(int i)
 	}
 	else
 	{
-		j=256-i;
-		for(a=0;a<16*3;a++) pal2[a]=(pal1[a]*j+63*i)>>8;
+		/*j=256-i;*/
+//		for(a=0;a<16*3;a++) pal2[a]=(pal1[a]*j+63*i)>>8;
 		dis_waitb();
 #if 0
 		outp(0x3c8,0);
@@ -128,7 +131,7 @@ int main(int argc,char *argv[])
 {
 	/*FILE	*f1;*/
 	/*int	rot=45;*/
-	int	x/*,y*/,b,c,x1,y1/*,x2,y2,x3,y3,x4,y4,*/,a/*hx,hy,vx,vy,cx,cy,pl=1,plv=0*/;
+	int	x/*,y*/,b,c/*,y1,x1,x2,y2,x3,y3,x4,y4,*/,a/*hx,hy,vx,vy,cx,cy,pl=1,plv=0*/;
 	/*int	vma,vm;*/
 	char	ch;
 	//int	*ip;
@@ -197,7 +200,7 @@ int main(int argc,char *argv[])
 	}
 			
 	//asminit(vbuf);
-	x1=y1=100;
+	/*x1=y1=100;*/
 
 	p=(char *)power0;
 	for(b=0;b<16;b++)
@@ -431,6 +434,7 @@ int	doit1(int count)
 
 		draw_doitfb();
 		swap_buffers();
+		poll_event();
 		change_plane();
 
 		plv++; plv&=7;
@@ -504,6 +508,7 @@ int	doit2(int count)
 
 		draw_doitfb();
 		swap_buffers();
+		poll_event();
 		change_plane();
 
 		plv++; plv&=7;
@@ -653,6 +658,7 @@ int	doit3(int count)
 
 		draw_doitfb();
 		swap_buffers();
+		poll_event();
 		change_plane();
 
 	

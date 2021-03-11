@@ -355,6 +355,7 @@ int main(int argc,char *argv[])
 		#endif
 
 		swap_buffers();
+		poll_event();
 	}
 
 	vid_deinit();

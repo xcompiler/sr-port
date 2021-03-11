@@ -2,7 +2,7 @@
 Second Reality Effects
 ======================
 
-Effects from Second Reality ported to C, Linux and OpenGL ES 2.0.
+Effects from Second Reality ported to C, Linux, SDL2, and OpenGL.
 
 
 Notes
@@ -21,7 +21,7 @@ Dependencies
 ------------
 
 libsoil-dev
-libgles2-mesa-dev
+libsdl2-dev
 
 Screenshots and further information
 -----------------------------------

@@ -175,6 +175,7 @@ int main(int argc, char **argv)
     }
 
     swap_buffers();
+    poll_event();
 
     for (sync = 1; sync <= frames; sync++) {
       putki[100].x = cosit[sy & 2047]-sinit[sy*3 & 4095]/*-cosit[sx & 2047]*/;

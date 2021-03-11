@@ -16,7 +16,7 @@
 int	indemo=0;
 
 char	scene[64]={"U2E"};
-char	tmpname[64];
+char	tmpname[68];
 
 char huge *scene0;
 char huge *scenem;
@@ -363,6 +363,7 @@ int main(int argc,char *argv[])
 		clear_screen();
 		draw_rectangle1();
 		swap_buffers();
+		poll_event();
 	}
 
 	// cross-fade to wide rectangle
@@ -401,6 +402,7 @@ int main(int argc,char *argv[])
 		setrgb(1, 63, 63, 63, r1a);
 		setrgb(2, 63, 63, 63, r2a);
 		swap_buffers();
+		poll_event();
 	}
 
 	// Wait a little bit -- not needed when music in place
@@ -413,6 +415,7 @@ int main(int argc,char *argv[])
 		clear_screen();
 		draw_rectangle2();
 		swap_buffers();
+		poll_event();
 	}
 
 	clear_screen();
@@ -528,7 +531,10 @@ int main(int argc,char *argv[])
 		//a=(syncframe-currframe);
 		//repeat=a+1;
 		if (!first)
+		{
 			swap_buffers();
+			poll_event();
+		}
 		if (first > 0) first--;
 
 		repeat=adjust_framerate();
@@ -668,6 +674,7 @@ int main(int argc,char *argv[])
 
 		draw_rectangle3();
 		swap_buffers();
+		poll_event();
 	}
 	if(!dis_indemo())
 	{

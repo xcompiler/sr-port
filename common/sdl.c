@@ -1,18 +1,14 @@
 #include <stdio.h>
 #include <sys/time.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <X11/Xlib.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_syswm.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
 #include <getopt.h>
 #include "u2gl.h"
 
 static volatile uint32_t tick_timer = 0;
-static EGLDisplay display;
-static EGLContext context;
-static EGLSurface surface;
-static Display *x11_display = NULL;
+
+SDL_Window *win = 0;
+SDL_GLContext glcontext;
 
 #define MAX_CONFIGS 10
 
@@ -23,46 +19,17 @@ static int frame_dump = 0;
 
 static void dump_frame(void);
 
-static uint32_t timer_function(uint32_t i)
+Uint32 timer_function(Uint32 interval, void *param)
 {
 	tick_timer++;
-	return i;
+	return interval;
 }
 
 static void close_window()
 {
-	if (display) {
-		eglMakeCurrent(display, NULL, NULL, EGL_NO_CONTEXT);
-		if (context)
-			eglDestroyContext(display, context);
-		if (surface)
-			eglDestroySurface(display, surface);
-		eglTerminate(display);
-
-		surface = 0;
-		context = 0;
-		display = 0;
-	}
-
-	if (x11_display)
-		XCloseDisplay(x11_display);
-
-	x11_display = NULL;
+	SDL_GL_DeleteContext(glcontext);
+	SDL_DestroyWindow(win);
 }
-
-static EGLint s_configAttribs[] = {
-	EGL_RED_SIZE, 8,
-	EGL_GREEN_SIZE, 8,
-	EGL_BLUE_SIZE, 8,
-	EGL_DEPTH_SIZE, 24,
-	EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-	EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-	EGL_NONE
-};
-
-static EGLint contextParams[] = {
-	EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
-};
 
 extern char *optarg;
 
@@ -94,11 +61,6 @@ static int parse_options(int argc, char **argv)
 
 int init_graphics(char *caption, int argc, char **argv)
 {
-	const SDL_VideoInfo *info;
-	int bpp;
-	EGLint num_configs = 0;
-	EGLConfig configs[MAX_CONFIGS];
-	EGLConfig my_config;
 	SDL_SysWMinfo sysInfo;
 
 	argv0 = argv[0];
@@ -113,92 +75,37 @@ int init_graphics(char *caption, int argc, char **argv)
 
 	atexit(SDL_Quit);
 
-	info = SDL_GetVideoInfo();
-	if (!info) {
-		fprintf(stderr, "error: %s\n", SDL_GetError());
-		return -1;
-	}
+	win = SDL_CreateWindow(caption, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-	bpp = info->vfmt->BitsPerPixel;
-
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-	if (SDL_SetVideoMode(window_width, window_height, bpp, SDL_OPENGL) == 0) {
-		fprintf(stderr, "error: %s\n", SDL_GetError());
-		return -1;
-	}
-
-	x11_display = XOpenDisplay(0);
-	if (x11_display == NULL) {
-		fprintf(stderr, "Failed to open X display");
-		return -1;
-	}
-
-	display = eglGetDisplay((EGLNativeDisplayType) x11_display);
-	if (display == EGL_NO_DISPLAY) {
-		fprintf(stderr, "Failed to get EGL display");
-		close_window();
-		return -1;
-	}
-
-	if (!eglInitialize(display, NULL, NULL)) {
-		fprintf(stderr, "Failed to initialize EGL display");
-		close_window();
-		return -1;
-	}
-
-	/* Choose configuration */
-	if (eglChooseConfig(display, s_configAttribs, configs,
-	    MAX_CONFIGS, &num_configs) != EGL_TRUE || num_configs == 0) {
-		close_window();
-		fprintf(stderr, "error: No suitable EGL configuration");
-		return -1;
-	}
-
-	/* Bind GLES API */
-	my_config = configs[0];
-	eglBindAPI(EGL_OPENGL_ES_API);
-
-	/* Create EGL Context */
-	context = eglCreateContext(display, my_config, EGL_NO_CONTEXT,
-			     contextParams);
-	if (context == EGL_NO_CONTEXT) {
-		close_window();
-		fprintf(stderr, "error: Failed to create EGL context\n");
+	if (win == NULL) {
+		fprintf(stderr, "error: SDL_CreateWindow failed\n");
 		return -1;
 	}
 
 	/* Get window manager information */
 	SDL_VERSION(&sysInfo.version);
-	if (SDL_GetWMInfo(&sysInfo) <= 0) {
+	if (SDL_GetWindowWMInfo(win, &sysInfo) == SDL_FALSE) {
 		close_window();
-		fprintf(stderr, "error: SDL_GetWMInfo failed\n");
+		fprintf(stderr, "error: SDL_GetWindowWMInfo failed\n");
 		return -1;
 	}
 
-	/* Create surface */
-	surface = eglCreateWindowSurface(display, my_config,
-			(EGLNativeWindowType)sysInfo.info.x11.window, NULL);
-	if (surface == EGL_NO_SURFACE) {
+	glcontext = SDL_GL_CreateContext(win);
+
+	if (glcontext == NULL) {
 		close_window();
-		fprintf(stderr, "error: Failed to create EGL surface\n");
+		fprintf(stderr, "error: SDL_GL_CreateContext failed\n");
 		return -1;
 	}
 
-	/* Make EGL current */
-	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+	if (SDL_GL_MakeCurrent(win, glcontext) < 0) {
 		close_window();
-		fprintf(stderr, "error: Failed to make EGL current\n");
+		fprintf(stderr, "error: SDL_GL_MakeCurrent failed\n");
 		return -1;
 	}
 
 	tick_timer = 0;
-	SDL_SetTimer(4, timer_function);
-	SDL_WM_SetCaption(caption, caption);
+	SDL_AddTimer(4, timer_function, 0);
 
 	return 0;
 }
@@ -245,7 +152,7 @@ void swap_buffers()
 	
 	if (frame_dump)
 		dump_frame();
-	eglSwapBuffers(display, surface);
+	SDL_GL_SwapWindow(win);
 }
 
 int adjust_framerate()
@@ -289,6 +196,8 @@ void poll_event()
 		case SDL_KEYDOWN:
 			break;
 		case SDL_QUIT:
+			/* SDL_Quit(); */
+			exit(0);
 			break;
 		}
 	}

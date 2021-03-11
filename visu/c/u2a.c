@@ -19,7 +19,7 @@ char bg[320 * 200];
 char *bg2;
 
 char	scene[64]={"U2A"};
-char	tmpname[64];
+char	tmpname[68];
 
 char huge *scene0;
 char huge *scenem;
@@ -355,6 +355,7 @@ printf("c=%d\n", c);
 		//avgrepeat=(avgrepeat+(syncframe-currframe)+1)/2;
 		//repeat=avgrepeat;
 		swap_buffers();
+		poll_event();
 
 		repeat=adjust_framerate();
 		if(repeat<1) repeat=1;

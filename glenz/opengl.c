@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <GLES2/gl2.h>
 #include <SOIL/SOIL.h>
 #include "u2gl.h"
 
@@ -35,7 +34,7 @@ static const char vertex_shader[] =
 "}\n";
 
 static const char fragment_shader[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"
 "\n"
@@ -60,7 +59,7 @@ static const char vertex_shader_texture[] =
 "}\n";
 
 static const char fragment_shader_texture[] =
-"precision mediump float;\n"
+//"precision mediump float;\n"
 "uniform sampler2D uTexture;\n"
 "uniform vec4 uColor;\n"
 "varying vec3 vPosition;\n"

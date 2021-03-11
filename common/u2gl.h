@@ -1,6 +1,37 @@
 #ifndef U2_OPENGL_H_
 #define U2_OPENGL_H_
 
+/* #include <GL/gl.h> */
+/* #include <GLES2/gl2.h> */
+#include <SDL2/SDL_opengl.h>
+
+extern GLAPI void GLAPIENTRY glAttachShader(GLuint program, GLuint shader);
+extern GLAPI void GLAPIENTRY glBindAttribLocation(GLuint program, GLuint index, const GLchar *name);
+extern GLAPI void GLAPIENTRY glBindFramebuffer(GLenum target, GLuint framebuffer);
+extern GLAPI void GLAPIENTRY glCompileShader(GLuint shader);
+extern GLAPI GLuint GLAPIENTRY glCreateProgram(void);
+extern GLAPI GLuint GLAPIENTRY glCreateShader(GLenum shaderType);
+extern GLAPI void GLAPIENTRY glDisableVertexAttribArray(GLuint index);
+extern GLAPI void GLAPIENTRY glEnableVertexAttribArray(GLuint index);
+extern GLAPI void GLAPIENTRY glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+extern GLAPI void GLAPIENTRY glGenerateMipmap(GLenum target);
+extern GLAPI void GLAPIENTRY glGenFramebuffers(GLsizei n, GLuint * framebuffers);
+extern GLAPI GLint GLAPIENTRY glGetAttribLocation(GLuint program, const GLchar *name);
+extern GLAPI void GLAPIENTRY glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog);
+extern GLAPI void GLAPIENTRY glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog);
+extern GLAPI GLint GLAPIENTRY glGetUniformLocation(GLuint program, const GLchar *name);
+extern GLAPI void GLAPIENTRY glLinkProgram(GLuint program);
+extern GLAPI void GLAPIENTRY glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length);
+extern GLAPI void GLAPIENTRY glUniform1f(GLint location, GLfloat v0);
+extern GLAPI void GLAPIENTRY glUniform1fv(GLint location, GLsizei count, const GLfloat *value);
+extern GLAPI void GLAPIENTRY glUniform1i(GLint location, GLint v0);
+extern GLAPI void GLAPIENTRY glUniform2fv(GLint location, GLsizei count, const GLfloat *value);
+extern GLAPI void GLAPIENTRY glUniform3fv(GLint location, GLsizei count, const GLfloat *value);
+extern GLAPI void GLAPIENTRY glUniform4fv (GLint location, GLsizei count, const GLfloat *value);
+extern GLAPI void GLAPIENTRY glUniformMatrix4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+extern GLAPI void GLAPIENTRY glUseProgram (GLuint program);
+extern GLAPI void GLAPIENTRY glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride,	const void * pointer);
+
 #include <string.h>
 #include "matrix.h"
 

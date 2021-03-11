@@ -147,6 +147,7 @@ void	part1(void)
 			ff = 1.0f;
 		draw_fir(ff);
 		swap_buffers();
+		poll_event();
 		a=waitb();
 		frame+=a;
 	}
@@ -205,6 +206,7 @@ void	part2(void)
 		draw_bg();
 		draw_lens();
 		swap_buffers();
+		poll_event();
 
 		uframe+=a;
 		if(a>3) a=3;
@@ -304,6 +306,7 @@ void	part3(void)
 			clear_screen();
 			draw_rot(x, y, xa, ya);
 			swap_buffers();
+			poll_event();
 
 			// end fade
 			if(frame>2000-128)

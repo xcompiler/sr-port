@@ -32,7 +32,9 @@ unsigned char flip8[] = {
 };
 
 int circles[8];
-unsigned char pal[32 * 3];
+
+/* pal is already defined in koe.c */
+//unsigned char pal[32 * 3];
 
 unsigned char pal0[] = {
 	0,30,40,
@@ -615,6 +617,7 @@ static void do_interference()
 		draw_inter();
 		draw_interfb();
 		swap_buffers();
+		poll_event();
 	}
 }
 
